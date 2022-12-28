@@ -32,7 +32,7 @@ class WelcomeScreen extends StatelessWidget {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                     ),
                     subtitle: Text(
-                        'Contribuir con tu experiencia siempre es un placer, gracias por tu Registro.'),
+                        'Contribuir con tu experiencia siempre es un placer, gracias por tu preferencia.'),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,

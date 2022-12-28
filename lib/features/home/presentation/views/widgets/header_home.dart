@@ -19,7 +19,7 @@ class HeaderHome extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
               Text(
-                'Hello Paula',
+                'Bienvenido',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w500,

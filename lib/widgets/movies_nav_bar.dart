@@ -63,6 +63,7 @@ class MoviesNavBar extends StatelessWidget {
           InkWell(
             onTap: () async {
               await authService.signOut();
+              Navigator.pushNamed(context, '/login');
             },
             child: const Icon(
               Icons.logout,
