@@ -39,6 +39,8 @@ dependencies:
   card_swiper: ^2.0.4
   firebase_auth: ^4.2.3
   firebase_core: ^2.4.0
+  provider: ^6.0.5
+  flutter_launcher_icons: ^0.11.0
 
 dev_dependencies:
   flutter_test:

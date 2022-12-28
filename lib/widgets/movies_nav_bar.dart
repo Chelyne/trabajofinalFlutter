@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/services/auth_services.dart';
+import 'package:provider/provider.dart';
 
 class MoviesNavBar extends StatelessWidget {
   const MoviesNavBar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
     return Container(
       height: 65,
       padding: const EdgeInsets.symmetric(horizontal: 13),
@@ -49,10 +52,20 @@ class MoviesNavBar extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.pushNamed(context, 'register');
+              Navigator.pushNamed(context, '/register');
             },
             child: const Icon(
               Icons.person,
+              size: 35,
+              color: Colors.white,
+            ),
+          ),
+          InkWell(
+            onTap: () async {
+              await authService.signOut();
+            },
+            child: const Icon(
+              Icons.logout,
               size: 35,
               color: Colors.white,
             ),
