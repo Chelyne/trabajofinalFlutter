@@ -9,7 +9,7 @@ enum MoviesStatus {
 
 class MoviesState extends Equatable {
   final MoviesStatus status;
-  final List<Map<String, dynamic>> upcomingMovies;
+  final  List<dynamic>  upcomingMovies;
   MoviesState.initial()
       : status = MoviesStatus.initial,
         upcomingMovies = [];
@@ -20,7 +20,7 @@ class MoviesState extends Equatable {
   MoviesState.error()
       : status = MoviesStatus.error,
         upcomingMovies = [];
-  const MoviesState.sucessfull(List<Map<String, dynamic>> data)
+  const MoviesState.sucessfull( List<dynamic>  data)
       : status = MoviesStatus.sucessfull,
         upcomingMovies = data;
 

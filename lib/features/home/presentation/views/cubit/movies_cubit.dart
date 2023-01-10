@@ -19,9 +19,10 @@ class MoviesCubit extends Cubit<MoviesState> {
       var dio = Dio();
       final response = await dio.get(
           'https://api.themoviedb.org/3/trending/movie/week?api_key=964085f4fd433d1a9da9fa8dea8e4e4c');
-      emit(MoviesState.sucessfull(response.data.results));
+      print(response.data['results']);
+      emit(MoviesState.sucessfull(response.data['results']));
     } catch (e) {
-      print('ERRORRRR');
+      print('ERROR');
       emit(MoviesState.error());
     }
   }
