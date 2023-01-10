@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class CardMovie extends StatelessWidget {
   const CardMovie({
     Key? key,
+    required Map<String, dynamic> this.movie,
   }) : super(key: key);
-
+  final Map<String, dynamic> movie;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -35,7 +36,7 @@ class CardMovie extends StatelessWidget {
                 topRight: Radius.circular(10),
               ),
               child: Image.network(
-                'https://laverdadnoticias.com/__export/1655819964975/sites/laverdad/img/2022/06/21/spy_x_family_viral_anya_forger_con_rasgos_biologicos_de_loid_y_yor.jpeg_1899857922.jpeg',
+                'https://image.tmdb.org/t/p/w500${movie['poster_path']}',
                 height: 200,
                 width: 200,
                 fit: BoxFit.cover,
