@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/services/auth_services.dart';
+import 'package:flutter_movie_app/services/firestore_service.dart';
 import 'package:flutter_movie_app/widgets/button.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +11,9 @@ class registerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController emailControler = TextEditingController();
     final TextEditingController passwordControler = TextEditingController();
+    final TextEditingController nombresControler = TextEditingController();
+    final TextEditingController apellidosControler = TextEditingController();
+    final TextEditingController celularControler = TextEditingController();
     final formKey = GlobalKey<FormState>();
 
     final authService = Provider.of<AuthService>(context);
@@ -37,6 +41,7 @@ class registerScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(5.0),
                 child: TextFormField(
                   decoration: const InputDecoration(labelText: 'Nombre'),
+                  controller: nombresControler,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Ingrese un nombre válido";
@@ -50,6 +55,7 @@ class registerScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(5.0),
                 child: TextFormField(
                   decoration: const InputDecoration(labelText: 'Apellidos'),
+                  controller: apellidosControler,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Ingrese un Apellido válido";
@@ -79,6 +85,7 @@ class registerScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(5.0),
                 child: TextFormField(
                   controller: passwordControler,
+                  obscureText: true,
                   decoration: const InputDecoration(labelText: 'Password'),
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -94,6 +101,7 @@ class registerScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: TextFormField(
+                  controller: celularControler,
                   decoration: const InputDecoration(labelText: 'Celular'),
                   validator: (value) {
                     if (value!.isEmpty ||
@@ -120,16 +128,25 @@ class registerScreen extends StatelessWidget {
               ButtonLogin(
                 texto: 'Registrarme',
                 onTap: () async {
+                  var newUser = {
+                    'nombres': nombresControler.text,
+                    'apellidos': apellidosControler.text,
+                    'celular': celularControler.text,
+                    'email': emailControler.text,
+                  };
                   if (formKey.currentState!.validate()) {
                     print('todo esta valido , consulta en firebase');
                     await authService.createUserWithEmailAndPassword(
                         emailControler.text, passwordControler.text);
+                    addUsuario(newUser);
+
                     _showToast(
                         context, 'Datos válidos', Icons.check, Colors.green);
                   } else {
                     print('No valido');
                     _showToast(context, 'Ingrese Datos Correctamente',
                         Icons.warning, Colors.redAccent);
+                    Navigator.pushNamed(context, 'home');
                   }
                 },
               ),
