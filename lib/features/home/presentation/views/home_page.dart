@@ -23,6 +23,7 @@ class HomePage extends StatelessWidget {
               UpcomingMovies(),
               SizedBox(height: 30),
               NewMovies(),
+              SizedBox(height: 30),
             ],
           ),
         ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubit/movies_cubit.dart';
+import 'card_movie.dart';
 
 class UpcomingMovies extends StatelessWidget {
   const UpcomingMovies({super.key});
@@ -38,27 +39,20 @@ class UpcomingMovies extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 15),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    for (int i = 1; i < 4; i++)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.network(
-                            'https://laverdadnoticias.com/__export/1655819964975/sites/laverdad/img/2022/06/21/spy_x_family_viral_anya_forger_con_rasgos_biologicos_de_loid_y_yor.jpeg_1899857922.jpeg',
-                            height: 180,
-                            width: 300,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                  ],
+              SizedBox(
+                height: 190,
+                width: MediaQuery.of(context).size.width.round() * 0.95,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: state.upcomingMovies.length,
+                  itemBuilder: (context, index) {
+                    return CardMovie(
+                      movie: state.upcomingMovies[index],
+                    );
+                  },
                 ),
-              )
+              ),
             ],
           );
         },

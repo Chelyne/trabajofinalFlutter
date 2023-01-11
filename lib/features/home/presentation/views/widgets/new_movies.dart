@@ -12,7 +12,6 @@ class NewMovies extends StatelessWidget {
       create: (context) => MoviesCubit(),
       child: BlocBuilder<MoviesCubit, MoviesState>(
         builder: (context, state) {
-          print(state.upcomingMovies);
           return Column(
             children: [
               Padding(
@@ -40,13 +39,16 @@ class NewMovies extends StatelessWidget {
               ),
               const SizedBox(height: 15),
               SizedBox(
-                height: 300,
+                height: 400,
                 child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   itemCount: state.upcomingMovies.length,
                   itemBuilder: (context, index) {
-                    return CardMovie(movie: state.upcomingMovies[index]);
+                    return CardMovie(
+                      movie: state.upcomingMovies[index],
+                      title: state.title[index],
+                    );
                   },
                 ),
               ),
