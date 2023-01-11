@@ -43,6 +43,7 @@ class LoginScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: TextFormField(
                 controller: passwordControler,
+                obscureText: true,
                 decoration: const InputDecoration(labelText: 'Password'),
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -60,10 +61,14 @@ class LoginScreen extends StatelessWidget {
                 onTap: () async {
                   if (formKey.currentState!.validate()) {
                     print('todo esta valido , consulta en firebase');
-                    await authService.signInWithEmailAndPassword(
-                        emailControler.text, passwordControler.text);
-                    _showToast(
-                        context, 'Datos válidos', Icons.check, Colors.green);
+                    await authService
+                        .signInWithEmailAndPassword(
+                            emailControler.text, passwordControler.text)
+                        .then((value) => {
+                              _showToast(context, 'Datos válidos', Icons.check,
+                                  Colors.green)
+                            })
+                        .catchError((err) => {print('Error: $err')});
                   } else {
                     print('No valido');
                     _showToast(context, 'Ingrese Datos Correctamente',

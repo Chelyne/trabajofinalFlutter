@@ -17,15 +17,19 @@ class AuthService {
 
   Future<User?> signInWithEmailAndPassword(
       String email, String password) async {
-    final credential = await _firebaseAuth.signInWithEmailAndPassword(
-        email: email, password: password);
+    final credential = await _firebaseAuth
+        .signInWithEmailAndPassword(email: email, password: password)
+        .whenComplete(() => print("Login correcto"))
+        .catchError((err) => print("Error: " + err));
     return _userFromFirebase(credential.user);
   }
 
   Future<User?> createUserWithEmailAndPassword(
       String email, String password) async {
-    final credential = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email, password: password);
+    final credential = await _firebaseAuth
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .whenComplete(() => print("Registro correcto"))
+        .catchError((err) => print("Error: " + err));
     return _userFromFirebase(credential.user);
   }
 

@@ -136,12 +136,19 @@ class registerScreen extends StatelessWidget {
                   };
                   if (formKey.currentState!.validate()) {
                     print('todo esta valido , consulta en firebase');
-                    await authService.createUserWithEmailAndPassword(
-                        emailControler.text, passwordControler.text);
-                    addUsuario(newUser);
-
-                    _showToast(
-                        context, 'Datos válidos', Icons.check, Colors.green);
+                    await authService
+                        .createUserWithEmailAndPassword(
+                            emailControler.text, passwordControler.text)
+                        .then((value) => {
+                              _showToast(
+                                  context,
+                                  'Usuario Registrado. INICIE SESION',
+                                  Icons.check,
+                                  Colors.green),
+                              addUsuario(newUser)
+                            })
+                        .catchError((err) => {print('Error: $err')});
+                    Navigator.pushNamed(context, 'home');
                   } else {
                     print('No valido');
                     _showToast(context, 'Ingrese Datos Correctamente',
