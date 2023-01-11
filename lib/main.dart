@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/features/detail/presentation/views/detail_page.dart';
 import 'package:flutter_movie_app/features/home/presentation/views/home_page.dart';
+import 'package:flutter_movie_app/features/profile/presentation/views/profile_page.dart';
 import 'package:flutter_movie_app/screens/screens.dart';
 import 'package:flutter_movie_app/services/auth_services.dart';
 import 'package:flutter_movie_app/wrapper.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
           '/login': (context) => LoginScreen(),
           '/register': (context) => registerScreen(),
           '/welcome': (context) => WelcomeScreen(),
+          '/profile': (context) => ProfilePage(),
           // 'login': (_) => const LoginPage(),
           // 'register': (_) => const RegisterPage(),
         },
