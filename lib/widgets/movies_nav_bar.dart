@@ -51,9 +51,7 @@ class MoviesNavBar extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, '/register');
-            },
+            onTap: () {},
             child: const Icon(
               Icons.person,
               size: 35,

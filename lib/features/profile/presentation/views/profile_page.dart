@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/features/profile/presentation/views/widgets/details_profile.dart';
 import 'package:flutter_movie_app/widgets/details_header.dart';
 import 'package:flutter_movie_app/widgets/movies_nav_bar.dart';
 
@@ -14,12 +15,12 @@ class ProfilePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
-              const DetailsHeader(),
+              const DetailsProfile(),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: const MoviesNavBar(),
+      //bottomNavigationBar: const MoviesNavBar(),
     );
   }
 }

@@ -48,8 +48,8 @@ class LoginScreen extends StatelessWidget {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Ingrese una contraseña";
-                  } else if (value.length <= 4) {
-                    return "Ingrese al menos 4 dígitos";
+                  } else if (value.length <= 6) {
+                    return "Ingrese al menos 6 dígitos";
                   } else {
                     return null;
                   }

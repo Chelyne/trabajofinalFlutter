@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_movie_app/services/auth_services.dart';
@@ -44,6 +45,8 @@ class _registerScreenState extends State<registerScreen> {
       print('Failed to take image: $e');
     }
   }
+
+  String? imageUrl = '';
 
   @override
   Widget build(BuildContext context) {
@@ -182,8 +185,8 @@ class _registerScreenState extends State<registerScreen> {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Ingrese un contraseña";
-                    } else if (value.length <= 4) {
-                      return "Ingrese al menos 4 dígitos";
+                    } else if (value.length <= 6) {
+                      return "Ingrese al menos 6 dígitos";
                     } else {
                       return null;
                     }
@@ -220,19 +223,42 @@ class _registerScreenState extends State<registerScreen> {
               ButtonLogin(
                 texto: 'Registrarme',
                 onTap: () async {
-                  var urlImage;
                   if (formKey.currentState!.validate()) {
                     if (image == null) {
                       // subir datos sin imagen
-                      urlImage = null;
+                      imageUrl = null;
                     } else {
+                      String uniqueFileName =
+                          DateTime.now().millisecondsSinceEpoch.toString();
                       //subir Imagen y subir datos
+                      //REFERENCIA AL STORAGE
+                      Reference referenceRoot = FirebaseStorage.instance.ref();
+                      //CREA CARPETA EN EL STORAGE
+                      Reference referenceDirImages =
+                          referenceRoot.child('perfiles');
+
+                      //ASIGNA UN NOMBRE AL ARCHIVO A SUBIR
+                      Reference referenceImageToUpload =
+                          referenceDirImages.child(uniqueFileName);
+
+                      try {
+                        //SUBE LA IMAGEN
+                        await referenceImageToUpload.putFile(File(image!.path));
+                        //OBTIENE LA URL
+                        imageUrl =
+                            await referenceImageToUpload.getDownloadURL();
+                      } catch (error) {
+                        //Some error occurred
+                        _showToast(context, 'La imagen no pudo ser subida',
+                            Icons.warning, Colors.redAccent);
+                      }
                     }
                     var newUser = {
                       'nombres': nombresControler.text,
                       'apellidos': apellidosControler.text,
                       'celular': celularControler.text,
-                      'email': urlImage,
+                      'email': emailControler.text,
+                      'urlImage': imageUrl,
                     };
 
                     print('todo esta valido , consulta en firebase');
@@ -248,7 +274,7 @@ class _registerScreenState extends State<registerScreen> {
                               addUsuario(newUser)
                             })
                         .catchError((err) => {print('Error: $err')});
-                    Navigator.pushNamed(context, 'home');
+                    Navigator.pop(context);
                   } else {
                     print('No valido');
                     _showToast(context, 'Ingrese Datos Correctamente',
@@ -267,7 +293,7 @@ class _registerScreenState extends State<registerScreen> {
                   const SizedBox(height: 8.0),
                   InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, '/login');
+                        Navigator.pop(context);
                       },
                       child: const Text(
                         'Iniciar Sesion',
@@ -277,7 +303,7 @@ class _registerScreenState extends State<registerScreen> {
                             fontSize: 16),
                       )),
                 ],
-              )
+              ),
             ],
           ),
         ),
