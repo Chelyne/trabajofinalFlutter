@@ -29,3 +29,33 @@ class ButtonLogin extends StatelessWidget {
     );
   }
 }
+
+class ButtonFillClear extends StatelessWidget {
+  void Function()? onTap;
+  String texto;
+
+  ButtonFillClear({
+    required this.texto,
+    required this.onTap,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+          width: 100,
+          height: 25,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8), color: Colors.white),
+          child: Center(
+              child: Text(texto,
+                  style: TextStyle(
+                      fontSize: 10,
+                      color:
+                          Color.fromARGB(184, 197, 187, 208).withOpacity(0.8),
+                      fontWeight: FontWeight.bold)))),
+    );
+  }
+}

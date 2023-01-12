@@ -1,11 +1,49 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_movie_app/services/auth_services.dart';
 import 'package:flutter_movie_app/services/firestore_service.dart';
 import 'package:flutter_movie_app/widgets/button.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class registerScreen extends StatelessWidget {
+class registerScreen extends StatefulWidget {
   const registerScreen({super.key});
+
+  @override
+  State<registerScreen> createState() => _registerScreenState();
+}
+
+class _registerScreenState extends State<registerScreen> {
+  File? image;
+
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final imageTemp = File(image.path);
+
+      setState(() {
+        this.image = imageTemp;
+      });
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
+  Future pickImageC() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+      if (image == null) return;
+      final imageTemp = File(image.path);
+
+      setState(() {
+        this.image = imageTemp;
+      });
+    } on PlatformException catch (e) {
+      print('Failed to take image: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +64,70 @@ class registerScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset(
-                'assets/logotipoplanet.png',
-                height: 150,
+              const Text(
+                'Regístrate',
+                style: TextStyle(fontSize: 35),
               ),
               const SizedBox(
                 height: 5,
               ),
-              const Text(
-                'Regístrate',
-                style: TextStyle(fontSize: 35),
+              Column(
+                children: [
+                  image != null
+                      ? Image.file(
+                          image!,
+                          height: 150,
+                        )
+                      : Image.asset(
+                          'assets/logotipoplanet.png',
+                          height: 150,
+                        ),
+                  Center(
+                    child: PopupMenuButton<String>(
+                      position: PopupMenuPosition.over,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.cameraswitch_outlined),
+                          SizedBox(width: 5),
+                          Text('Cambiar foto'),
+                        ],
+                      ),
+                      onSelected: (String value) {
+                        print(value);
+                        //ejecutamos la funciones
+                        if (value == 'camara') {
+                          pickImageC();
+                        } else if (value == 'galeria') {
+                          pickImage();
+                        }
+                      },
+                      itemBuilder: (BuildContext context) =>
+                          <PopupMenuEntry<String>>[
+                        PopupMenuItem<String>(
+                          value: 'camara',
+                          child: Row(
+                            children: [
+                              Icon(Icons.cameraswitch),
+                              SizedBox(width: 5),
+                              Text('Camara'),
+                            ],
+                          ),
+                        ),
+                        PopupMenuItem<String>(
+                          value: 'galeria',
+                          child: Row(
+                            children: [
+                              Icon(Icons.photo_album),
+                              SizedBox(width: 5),
+                              Text('Galeria'),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.all(5.0),
@@ -128,13 +220,21 @@ class registerScreen extends StatelessWidget {
               ButtonLogin(
                 texto: 'Registrarme',
                 onTap: () async {
-                  var newUser = {
-                    'nombres': nombresControler.text,
-                    'apellidos': apellidosControler.text,
-                    'celular': celularControler.text,
-                    'email': emailControler.text,
-                  };
+                  var urlImage;
                   if (formKey.currentState!.validate()) {
+                    if (image == null) {
+                      // subir datos sin imagen
+                      urlImage = null;
+                    } else {
+                      //subir Imagen y subir datos
+                    }
+                    var newUser = {
+                      'nombres': nombresControler.text,
+                      'apellidos': apellidosControler.text,
+                      'celular': celularControler.text,
+                      'email': urlImage,
+                    };
+
                     print('todo esta valido , consulta en firebase');
                     await authService
                         .createUserWithEmailAndPassword(
@@ -153,7 +253,6 @@ class registerScreen extends StatelessWidget {
                     print('No valido');
                     _showToast(context, 'Ingrese Datos Correctamente',
                         Icons.warning, Colors.redAccent);
-                    Navigator.pushNamed(context, 'home');
                   }
                 },
               ),
