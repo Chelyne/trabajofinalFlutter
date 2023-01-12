@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/features/profile/presentation/views/widgets/text_data.dart';
 import 'package:flutter_movie_app/models/profile_user.dart';
 import 'package:flutter_movie_app/services/firestore_service.dart';
+import 'package:flutter_movie_app/user_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailsProfile extends StatefulWidget {
@@ -17,9 +18,9 @@ class _DetailsProfileState extends State<DetailsProfile> {
   void initState() {
     super.initState();
     Future.sync(() async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      var email = prefs.getString('email');
-      getDataUser('arce@gmail.com').then((user) => {
+      String? email = UserPreferences.getEmail() ?? '';
+      print('EMAILLL SHARED PREFERENCES' + email);
+      getDataUser(email).then((user) => {
             print('Usuario' + user.toString()),
             setState(() {
               currentUser = ProfileUser(

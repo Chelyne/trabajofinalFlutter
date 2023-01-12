@@ -5,12 +5,15 @@ import 'package:flutter_movie_app/features/home/presentation/views/home_page.dar
 import 'package:flutter_movie_app/features/profile/presentation/views/profile_page.dart';
 import 'package:flutter_movie_app/screens/screens.dart';
 import 'package:flutter_movie_app/services/auth_services.dart';
+import 'package:flutter_movie_app/user_preferences.dart';
 import 'package:flutter_movie_app/wrapper.dart';
 import 'package:provider/provider.dart';
 
-void main() async {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await UserPreferences.init();
+
   runApp(const MyApp());
 }
 

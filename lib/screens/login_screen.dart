@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/services/auth_services.dart';
+import 'package:flutter_movie_app/user_preferences.dart';
 import 'package:flutter_movie_app/widgets/button.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +14,10 @@ class LoginScreen extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
 
     final authService = Provider.of<AuthService>(context);
+    void storeEmail(String email) async {
+      await UserPreferences.setEmail(email);
+    }
+
     return Scaffold(
       body: Form(
         key: formKey,
@@ -65,6 +70,7 @@ class LoginScreen extends StatelessWidget {
                         .signInWithEmailAndPassword(
                             emailControler.text, passwordControler.text)
                         .then((value) => {
+                              storeEmail(emailControler.text),
                               _showToast(context, 'Datos válidos', Icons.check,
                                   Colors.green)
                             })

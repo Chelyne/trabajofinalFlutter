@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_movie_app/services/auth_services.dart';
 import 'package:flutter_movie_app/services/firestore_service.dart';
+import 'package:flutter_movie_app/user_preferences.dart';
 import 'package:flutter_movie_app/widgets/button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -44,6 +45,10 @@ class _registerScreenState extends State<registerScreen> {
     } on PlatformException catch (e) {
       print('Failed to take image: $e');
     }
+  }
+
+  void storeEmail(String email) async {
+    await UserPreferences.setEmail(email);
   }
 
   String? imageUrl = '';
@@ -266,6 +271,7 @@ class _registerScreenState extends State<registerScreen> {
                         .createUserWithEmailAndPassword(
                             emailControler.text, passwordControler.text)
                         .then((value) => {
+                              storeEmail(emailControler.text),
                               _showToast(
                                   context,
                                   'Usuario Registrado. INICIE SESION',
