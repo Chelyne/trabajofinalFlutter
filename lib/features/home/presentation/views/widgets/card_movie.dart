@@ -9,11 +9,14 @@ class CardMovie extends StatelessWidget {
     required Map<String, dynamic> this.movie,
     final String? this.title,
     final String? this.image,
+    final double? this.star,
     final String? this.id,
   }) : super(key: key);
   final Map<String, dynamic> movie;
   final String? title;
   final String? image;
+  final double? star;
+
   final String? id;
 
   @override
@@ -80,15 +83,15 @@ class CardMovie extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         Row(
-                          children: const [
-                            Icon(
+                          children: [
+                            const Icon(
                               Icons.star,
                               color: Colors.amber,
                             ),
-                            SizedBox(width: 5),
+                            const SizedBox(width: 5),
                             Text(
-                              '8.5',
-                              style: TextStyle(
+                              '$star',
+                              style: const TextStyle(
                                 color: Colors.white54,
                                 fontSize: 16,
                               ),

@@ -51,6 +51,7 @@ class NewMovies extends StatelessWidget {
                       movie: state.newMovies[index],
                       title: movie['title'],
                       image: state.newMovies[index]['poster_path'],
+                      star: state.newMovies[index]['vote_average'],
                     );
                   },
                 ),
