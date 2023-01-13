@@ -9,29 +9,29 @@ enum MoviesStatus {
 
 class MoviesState extends Equatable {
   final MoviesStatus status;
-  final List<dynamic> upcomingMovies;
   final List<dynamic> title;
+  final List<dynamic> newMovies;
 
   MoviesState.initial()
       : status = MoviesStatus.initial,
-        upcomingMovies = [],
+        newMovies = [],
         title = [];
 
   MoviesState.loading()
       : status = MoviesStatus.loading,
-        upcomingMovies = [],
+        newMovies = [],
         title = [];
 
   MoviesState.error()
       : status = MoviesStatus.error,
-        upcomingMovies = [],
+        newMovies = [],
         title = [];
 
   const MoviesState.sucessfull(List<dynamic> data)
       : status = MoviesStatus.sucessfull,
         title = data,
-        upcomingMovies = data;
+        newMovies = data;
 
   @override
-  List<Object> get props => [status, upcomingMovies, title];
+  List<Object> get props => [status, title, newMovies];
 }

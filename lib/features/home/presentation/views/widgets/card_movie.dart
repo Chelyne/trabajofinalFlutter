@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_movie_app/features/home/presentation/views/cubit/movies_cubit.dart';
+
+import '../cubit_newmovies/movies_cubit.dart';
 
 class CardMovie extends StatelessWidget {
   CardMovie({
     Key? key,
     required Map<String, dynamic> this.movie,
-    final Map<String, dynamic>? title,
+    final String? this.title,
+    final String? this.image,
+    final String? this.id,
   }) : super(key: key);
-
   final Map<String, dynamic> movie;
+  final String? title;
+  final String? image;
+  final String? id;
+
   @override
   Widget build(BuildContext context) {
     final String title = movie['title'];
@@ -45,7 +51,7 @@ class CardMovie extends StatelessWidget {
                       topRight: Radius.circular(10),
                     ),
                     child: Image.network(
-                      'https://image.tmdb.org/t/p/w500${movie['poster_path']}',
+                      'https://image.tmdb.org/t/p/w500$image',
                       height: 250,
                       width: 200,
                       fit: BoxFit.cover,

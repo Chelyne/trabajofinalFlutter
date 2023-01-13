@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_movie_app/models/trending_model.dart';
 part 'movies_state.dart';
 
 String _apiKey = '964085f4fd433d1a9da9fa8dea8e4e4c';

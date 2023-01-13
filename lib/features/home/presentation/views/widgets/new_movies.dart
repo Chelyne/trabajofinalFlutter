@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_movie_app/features/home/presentation/views/cubit/movies_cubit.dart';
 import 'package:flutter_movie_app/features/home/presentation/views/widgets/card_movie.dart';
+
+import '../cubit_newmovies/movies_cubit.dart';
 
 class NewMovies extends StatelessWidget {
   const NewMovies({super.key});
@@ -43,11 +44,13 @@ class NewMovies extends StatelessWidget {
                 child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: state.upcomingMovies.length,
+                  itemCount: state.newMovies.length,
                   itemBuilder: (context, index) {
+                    final movie = state.newMovies[index];
                     return CardMovie(
-                      movie: state.upcomingMovies[index],
-                      title: state.title[index],
+                      movie: state.newMovies[index],
+                      title: movie['title'],
+                      image: state.newMovies[index]['poster_path'],
                     );
                   },
                 ),

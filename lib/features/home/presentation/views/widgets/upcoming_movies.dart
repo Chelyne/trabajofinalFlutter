@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../cubit/movies_cubit.dart';
+import '../cubit/upcoming_movies_cubit.dart';
 import 'card_movie.dart';
 
 class UpcomingMovies extends StatelessWidget {
@@ -10,8 +10,8 @@ class UpcomingMovies extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => MoviesCubit(),
-      child: BlocBuilder<MoviesCubit, MoviesState>(
+      create: (context) => UpcomingMoviesCubit(),
+      child: BlocBuilder<UpcomingMoviesCubit, UpcomingMoviesState>(
         builder: (context, state) {
           return Column(
             children: [
@@ -49,6 +49,7 @@ class UpcomingMovies extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return CardMovie(
                       movie: state.upcomingMovies[index],
+                      image: state.upcomingMovies[index]['poster_path'],
                     );
                   },
                 ),
