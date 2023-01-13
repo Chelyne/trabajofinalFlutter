@@ -48,13 +48,18 @@ class DetailsHeader extends StatelessWidget {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-              size: 30,
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+                size: 30,
+              ),
             ),
-            Icon(
+            const Icon(
               Icons.favorite_border,
               color: Colors.white,
               size: 30,

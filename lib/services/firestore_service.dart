@@ -18,8 +18,13 @@ Future<void> addUsuario(newUser) async {
   await db.collection('usuarios').add(newUser);
 }
 
-Future<void> updateUsuario(String nombres) async {
-  await db.collection('usuario').doc('usuarios').update({'nombre': nombres});
+Future<void> updateUsuario(
+    String id, String nombres, String apellidos, String celular) async {
+  await db.collection('usuarios').doc(id).update({
+    'nombres': nombres,
+    'apellidos': apellidos,
+    'celular': celular,
+  });
 }
 
 Future<List> getDataUser(String correo) async {
@@ -29,7 +34,9 @@ Future<List> getDataUser(String correo) async {
   QuerySnapshot querySnapshot =
       await collectionReference.where('email', isEqualTo: correo).get();
   querySnapshot.docs.forEach((element) {
-    listUser.add(element.data());
+    Map data = element.data() as Map;
+    data['id'] = element.id;
+    listUser.add(data);
   });
   Future.delayed(const Duration(seconds: 5));
   return listUser;
