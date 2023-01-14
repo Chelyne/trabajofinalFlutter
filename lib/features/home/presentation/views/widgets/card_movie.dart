@@ -28,7 +28,7 @@ class CardMovie extends StatelessWidget {
         builder: (context, state) {
           return InkWell(
             onTap: () {
-              print('Movie 1');
+              Navigator.pushNamed(context, 'details', arguments: id);
             },
             child: Container(
               width: 190,

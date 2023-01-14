@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../cubit/upcoming_movies_cubit.dart';
+import '../cubit_upcoming_movies/upcoming_movies_cubit.dart';
 
 class UpcomingCard extends StatelessWidget {
   const UpcomingCard({
