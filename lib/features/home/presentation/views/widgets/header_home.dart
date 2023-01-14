@@ -80,7 +80,7 @@ class _HeaderHomeState extends State<HeaderHome> {
           ),
           InkWell(
             onTap: () {
-              Navigator.pushNamed(context, '/profile');
+              Navigator.pushReplacementNamed(context, '/profile');
             },
             child: ClipRRect(
               borderRadius: BorderRadius.circular(50),

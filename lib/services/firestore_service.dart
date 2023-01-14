@@ -1,18 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
-
-Future<List> getLista() async {
-//Letura de datos
-  List pe = [];
-  CollectionReference collectionReference = db.collection('usuarios');
-  QuerySnapshot querySnapshot = await collectionReference.get();
-  querySnapshot.docs.forEach((element) {
-    pe.add(element.data());
-  });
-  Future.delayed(const Duration(seconds: 5));
-  return pe;
-}
+//................USUARIOS.....................
 
 Future<void> addUsuario(newUser) async {
   await db.collection('usuarios').add(newUser);
@@ -40,4 +29,50 @@ Future<List> getDataUser(String correo) async {
   });
   Future.delayed(const Duration(seconds: 5));
   return listUser;
+}
+
+// .................COMENTARIOS......................
+
+//Obtener comentario de peliculas con su id de la pelicula
+Future<List> getComentariosPeliculas(String idPelicula) async {
+  //Letura de datos
+  List lista = [];
+  CollectionReference collectionReference = db.collection('comentarios');
+  QuerySnapshot querySnapshot = await collectionReference
+      .where('idPelicula', isEqualTo: idPelicula)
+      .get();
+  querySnapshot.docs.forEach((element) {
+    Map data = element.data() as Map;
+    data['id'] = element.id;
+    lista.add(data);
+  });
+  Future.delayed(const Duration(seconds: 5));
+  return lista;
+}
+
+//agregar un nuevo comentario a la pelicula con id de pelicula
+Future<void> addComentario(newComentario) async {
+  await db.collection('comentarios').add(newComentario);
+}
+
+// Actualizar un comentario del usuario
+Future<void> updateComentario(String idComentario, String descripcion) async {
+  await db
+      .collection('comentarios')
+      .doc(idComentario)
+      .update({
+        'descripcion': descripcion,
+      })
+      .then((value) => print('Cambiado Correctamente'))
+      .catchError((err) => print('Error: $err'));
+}
+
+// Eliminar comentario
+Future<void> deleteComentario(String id) async {
+  await db
+      .collection('comentarios')
+      .doc(id)
+      .delete()
+      .then((value) => print('Eliminado Correctamente'))
+      .catchError((err) => print('Error: $err'));
 }

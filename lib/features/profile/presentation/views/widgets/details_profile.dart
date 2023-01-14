@@ -50,40 +50,29 @@ class _DetailsProfileState extends State<DetailsProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Column(
       children: [
-        SizedBox(
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height * 0.80,
-        ),
-        ClipRRect(
-            child: Image.network(
-          'https://acf.geeknetic.es/imgri/imagenes/tutoriales/2020/1759-plataformas-streaming/muestra.jpg?f=webp',
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height * 0.35,
-          fit: BoxFit.cover,
-        )),
-        Positioned(
-          top: MediaQuery.of(context).size.height * 0.18,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: ClipRRect(
-                    child: Image.network(
-                  currentUser?.urlImage ??
-                      'https://laverdadnoticias.com/__export/1655819964975/sites/laverdad/img/2022/06/21/spy_x_family_viral_anya_forger_con_rasgos_biologicos_de_loid_y_yor.jpeg_1899857922.jpeg',
-                  width: MediaQuery.of(context).size.width * 0.30,
-                  height: MediaQuery.of(context).size.height * 0.28,
-                  fit: BoxFit.contain,
-                )),
+        SizedBox(height: 25),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 10,
+                blurRadius: 5,
+                offset: Offset(0, 3),
               ),
             ],
           ),
+          child: CircleAvatar(
+            radius: 100,
+            backgroundImage: NetworkImage(currentUser?.urlImage ??
+                'https://laverdadnoticias.com/__export/1655819964975/sites/laverdad/img/2022/06/21/spy_x_family_viral_anya_forger_con_rasgos_biologicos_de_loid_y_yor.jpeg_1899857922.jpeg'),
+          ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 320),
+          padding: const EdgeInsets.all(8),
           child: Form(
             key: _formkey,
             child: Padding(
@@ -105,7 +94,6 @@ class _DetailsProfileState extends State<DetailsProfile> {
                       },
                       controller: nombresCtrl,
                       enableInteractiveSelection: false,
-                      autofocus: true,
                       decoration: InputDecoration(
                           fillColor: const Color.fromARGB(255, 85, 84, 80),
                           filled: true,
@@ -135,7 +123,6 @@ class _DetailsProfileState extends State<DetailsProfile> {
                       },
                       controller: apellidosCtrl,
                       enableInteractiveSelection: false,
-                      autofocus: true,
                       decoration: InputDecoration(
                           fillColor: const Color.fromARGB(255, 85, 84, 80),
                           filled: true,
@@ -154,7 +141,6 @@ class _DetailsProfileState extends State<DetailsProfile> {
                       style: const TextStyle(color: Colors.white),
                       controller: celularCtrl,
                       enableInteractiveSelection: false,
-                      autofocus: true,
                       validator: (value) {
                         if (value!.isEmpty ||
                             !RegExp(r'^9[0-9]{8}$').hasMatch(value)) {
@@ -182,7 +168,6 @@ class _DetailsProfileState extends State<DetailsProfile> {
                       style: const TextStyle(color: Colors.white),
                       controller: emailCtrl,
                       enableInteractiveSelection: false,
-                      autofocus: true,
                       decoration: InputDecoration(
                           fillColor: const Color.fromARGB(255, 85, 84, 80),
                           filled: true,
@@ -228,26 +213,26 @@ class _DetailsProfileState extends State<DetailsProfile> {
             ),
           ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-                size: 30,
-              ),
-            ),
-            const Icon(
-              Icons.favorite_border,
-              color: Colors.white,
-              size: 30,
-            ),
-          ],
-        ),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     InkWell(
+        //       onTap: () {
+        //         Navigator.pop(context);
+        //       },
+        //       child: const Icon(
+        //         Icons.arrow_back,
+        //         color: Colors.white,
+        //         size: 30,
+        //       ),
+        //     ),
+        //     const Icon(
+        //       Icons.favorite_border,
+        //       color: Colors.white,
+        //       size: 30,
+        //     ),
+        //   ],
+        // ),
       ],
     );
   }
