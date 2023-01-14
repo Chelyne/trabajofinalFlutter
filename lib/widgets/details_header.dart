@@ -4,9 +4,12 @@ import '../features/home/presentation/views/widgets/button_play.dart';
 
 class DetailsHeader extends StatelessWidget {
   const DetailsHeader({
+    String? this.poster = '',
+    String? this.backdrop = '',
     Key? key,
   }) : super(key: key);
-
+  final String? poster;
+  final String? backdrop;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -16,12 +19,20 @@ class DetailsHeader extends StatelessWidget {
           height: MediaQuery.of(context).size.height * 0.43,
         ),
         ClipRRect(
-            child: Image.network(
-          'https://laverdadnoticias.com/__export/1655819964975/sites/laverdad/img/2022/06/21/spy_x_family_viral_anya_forger_con_rasgos_biologicos_de_loid_y_yor.jpeg_1899857922.jpeg',
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height * 0.35,
-          fit: BoxFit.cover,
-        )),
+            child: backdrop != null
+                ? FadeInImage.assetNetwork(
+                    placeholder: 'assets/logotipoplanet.png',
+                    image: 'https://image.tmdb.org/t/p/w500$backdrop',
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height * 0.35,
+                    fit: BoxFit.fill,
+                  )
+                : Image.asset(
+                    'assets/logotipoplanet.png',
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height * 0.35,
+                    fit: BoxFit.fill,
+                  )),
         Positioned(
           top: MediaQuery.of(context).size.height * 0.18,
           child: Row(
@@ -30,12 +41,20 @@ class DetailsHeader extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: ClipRRect(
-                    child: Image.network(
-                  'https://laverdadnoticias.com/__export/1655819964975/sites/laverdad/img/2022/06/21/spy_x_family_viral_anya_forger_con_rasgos_biologicos_de_loid_y_yor.jpeg_1899857922.jpeg',
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  height: MediaQuery.of(context).size.height * 0.28,
-                  fit: BoxFit.cover,
-                )),
+                    child: poster != null
+                        ? FadeInImage.assetNetwork(
+                            placeholder: 'assets/logotipoplanet.png',
+                            image: 'https://image.tmdb.org/t/p/w500$poster',
+                            width: MediaQuery.of(context).size.width * 0.25,
+                            height: MediaQuery.of(context).size.height * 0.28,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.asset(
+                            'assets/logotipoplanet.png',
+                            width: double.infinity,
+                            height: MediaQuery.of(context).size.height * 0.35,
+                            fit: BoxFit.fill,
+                          )),
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.4,
