@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/services/firestore_service.dart';
 
@@ -20,103 +22,108 @@ class _CommentsMovieState extends State<CommentsMovie> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: FutureBuilder(
-      future: getComentariosPeliculas(idMovie ?? ' '),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return ListView.builder(
-            itemCount: snapshot.data?.length,
-            itemBuilder: ((context, index) {
-              return Container(
-                child: Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: PopupMenuButton<String>(
-                      position: PopupMenuPosition.over,
-                      onSelected: (String value) {
-                        print(value);
-                        if (value == 'eliminar') {
-                          // Eliminar
-                          print(
-                              'eliminar: ${snapshot.data?[index]['id'].toString()}');
-                          deleteComentario(
-                                  snapshot.data?[index]['id'].toString() ?? '')
-                              .then((value) => {print('Prestamo eliminado')})
-                              .catchError((err) => print('Error: $err'));
-                          setState(() {});
-                        }
-                        if (value == 'editar') {
-                          AlertShowComents(
-                              context,
-                              snapshot.data?[index]['id'].toString() ?? '',
-                              snapshot.data?[index]['descripcion']);
-                        }
-                      },
-                      itemBuilder: (BuildContext context) =>
-                          <PopupMenuEntry<String>>[
-                        PopupMenuItem<String>(
-                          value: 'eliminar',
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.delete,
-                                color: Colors.red,
+    return Container(
+      height: 500,
+      width: 800,
+      child: FutureBuilder(
+        future: getComentariosPeliculas(idMovie ?? ' '),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data?.length,
+              itemBuilder: ((context, index) {
+                return Container(
+                  child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: PopupMenuButton<String>(
+                        position: PopupMenuPosition.over,
+                        onSelected: (String value) {
+                          print(value);
+                          if (value == 'eliminar') {
+                            // Eliminar
+                            print(
+                                'eliminar: ${snapshot.data?[index]['id'].toString()}');
+                            deleteComentario(
+                                    snapshot.data?[index]['id'].toString() ??
+                                        '')
+                                .then((value) => {print('Prestamo eliminado')})
+                                .catchError((err) => print('Error: $err'));
+                            setState(() {});
+                          }
+                          if (value == 'editar') {
+                            AlertShowComents(
+                                context,
+                                snapshot.data?[index]['id'].toString() ?? '',
+                                snapshot.data?[index]['descripcion']);
+                          }
+                        },
+                        itemBuilder: (BuildContext context) =>
+                            <PopupMenuEntry<String>>[
+                          PopupMenuItem<String>(
+                            value: 'eliminar',
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
+                                ),
+                                SizedBox(width: 5),
+                                Text('Eliminar'),
+                              ],
+                            ),
+                          ),
+                          PopupMenuItem<String>(
+                            value: 'editar',
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.edit,
+                                  color: Colors.green,
+                                ),
+                                SizedBox(width: 5),
+                                Text('editar'),
+                              ],
+                            ),
+                          ),
+                        ],
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              child: Icon(Icons.message),
+                            ),
+                            trailing: IconButton(
+                              icon: Icon(
+                                Icons.more_vert,
+                                color: Colors.black,
                               ),
-                              SizedBox(width: 5),
-                              Text('Eliminar'),
-                            ],
+                              onPressed: () {},
+                            ),
+                            title: Text(
+                              snapshot.data?[index]['correo'],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
+                            subtitle: Text(
+                              snapshot.data?[index]['descripcion'],
+                              style: TextStyle(fontSize: 16),
+                            ),
                           ),
                         ),
-                        PopupMenuItem<String>(
-                          value: 'editar',
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.edit,
-                                color: Colors.green,
-                              ),
-                              SizedBox(width: 5),
-                              Text('editar'),
-                            ],
-                          ),
-                        ),
-                      ],
-                      child: Card(
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.money,
-                            color: Colors.blue,
-                          ),
-                          trailing: Text(
-                            'S/. ${snapshot.data?[index]['correo'].toString()}',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          title: Text(
-                            snapshot.data?[index]['descripcion'],
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                snapshot.data?[index]['idPelicula'],
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    )),
-              );
-            }),
-          );
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
-    ));
+                      )),
+                );
+              }),
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+    );
   }
 
   Future<dynamic> AlertShowComents(
@@ -139,8 +146,8 @@ class _CommentsMovieState extends State<CommentsMovie> {
                   return "Ingrese un comentario";
                 } else if (value.length <= 3) {
                   return "Ingrese al menos 3 caracteres";
-                } else if (value.length >= 75) {
-                  return "solo se acepta 75 caracteres";
+                } else if (value.length >= 200) {
+                  return "solo se acepta 200 caracteres";
                 } else {
                   return null;
                 }
