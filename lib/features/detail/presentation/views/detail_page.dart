@@ -21,6 +21,70 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget build(BuildContext context) {
     final id = ModalRoute.of(context)!.settings.arguments as String;
 
+    Future<dynamic> AlertShowComents(BuildContext context) {
+      String? email = UserPreferences.getEmail() ?? '';
+      final TextEditingController comentario = TextEditingController();
+      final formKeyNewComentario = GlobalKey<FormState>();
+      return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Agregar comentario"),
+            content: Form(
+              key: formKeyNewComentario,
+              child: TextFormField(
+                controller: comentario,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Ingrese un comentario";
+                  } else if (value.length <= 3) {
+                    return "Ingrese al menos 3 caracteres";
+                  } else if (value.length >= 200) {
+                    return "solo se acepta 200 caracteres";
+                  } else {
+                    return null;
+                  }
+                },
+                maxLines: 3,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                  child: Text("Cancelar"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }),
+              ElevatedButton(
+                child: Text("Guardar"),
+                onPressed: () {
+                  if (formKeyNewComentario.currentState!.validate()) {
+                    var com = {
+                      'descripcion': comentario.text,
+                      'idPelicula': id,
+                      'correo': email,
+                      'fechaPublicacion': DateTime.now().toString()
+                    };
+                    addComentario(com)
+                        .then((value) => print('COMENTRAIO OK'))
+                        .catchError((err) => print(err));
+                    setState(() {});
+                    Navigator.of(context).pop();
+                  } else {
+                    print('ingrese comentario de manera adecuada');
+                  }
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return BlocProvider(
       create: (context) => MovieIdCubit()..getTrendingMovies(id),
       child: BlocBuilder<MovieIdCubit, MovieIdState>(
@@ -97,7 +161,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    CommentsMovie()
+                    CommentsMovie(idPelicula: id)
                   ],
                 ),
               ),
@@ -106,70 +170,6 @@ class _DetailsPageState extends State<DetailsPage> {
           );
         },
       ),
-    );
-  }
-
-  Future<dynamic> AlertShowComents(BuildContext context) {
-    String? email = UserPreferences.getEmail() ?? '';
-    final TextEditingController comentario = TextEditingController();
-    final formKeyNewComentario = GlobalKey<FormState>();
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Agregar comentario"),
-          content: Form(
-            key: formKeyNewComentario,
-            child: TextFormField(
-              controller: comentario,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return "Ingrese un comentario";
-                } else if (value.length <= 3) {
-                  return "Ingrese al menos 3 caracteres";
-                } else if (value.length >= 200) {
-                  return "solo se acepta 200 caracteres";
-                } else {
-                  return null;
-                }
-              },
-              maxLines: 3,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            ),
-          ),
-          actions: <Widget>[
-            ElevatedButton(
-                child: Text("Cancelar"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                }),
-            ElevatedButton(
-              child: Text("Guardar"),
-              onPressed: () {
-                if (formKeyNewComentario.currentState!.validate()) {
-                  var com = {
-                    'descripcion': comentario.text,
-                    'idPelicula': '123456',
-                    'correo': email,
-                    'fechaPublicacion': DateTime.now().toString()
-                  };
-                  addComentario(com)
-                      .then((value) => print('COMENTRAIO OK'))
-                      .catchError((err) => print(err));
-                  setState(() {});
-                  Navigator.of(context).pop();
-                } else {
-                  print('ingrese comentario de manera adecuada');
-                }
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }
