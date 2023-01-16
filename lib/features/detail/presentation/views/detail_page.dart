@@ -7,7 +7,7 @@ import 'package:flutter_movie_app/services/firestore_service.dart';
 import 'package:flutter_movie_app/user_preferences.dart';
 import 'package:flutter_movie_app/widgets/movies_nav_bar.dart';
 
-import '../../../../widgets/details_header.dart';
+import 'widgets/details_header.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({super.key});
@@ -127,9 +127,7 @@ class _DetailsPageState extends State<DetailsPage> {
           final poster = state.movie['poster_path'];
           final title = state.movie['original_title'];
           final resume = state.movie['overview'];
-          print(state.movie);
-          // print(poster);
-          // print(backdrop);
+          final url = state.url;
 
           return Scaffold(
             backgroundColor: Colors.black,
@@ -141,6 +139,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     DetailsHeader(
                       backdrop: backdrop,
                       poster: poster,
+                      url: url,
                     ),
                     const SizedBox(
                       height: 20,
