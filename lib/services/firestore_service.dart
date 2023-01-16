@@ -76,3 +76,37 @@ Future<void> deleteComentario(String id) async {
       .then((value) => print('Eliminado Correctamente'))
       .catchError((err) => print('Error: $err'));
 }
+// .................FAVORITOS......................
+
+//Obtener favoritos de peliculas con su correo de usuario
+Future<List> getFavoritosUser(String emailUser) async {
+  print(emailUser);
+  //Letura de datos
+  List lista = [];
+  CollectionReference collectionReference = db.collection('favoritos');
+  QuerySnapshot querySnapshot =
+      await collectionReference.where('correo', isEqualTo: emailUser).get();
+  querySnapshot.docs.forEach((element) {
+    Map data = element.data() as Map;
+    print('DATOS OBTENIDOS' + element.data().toString());
+    data['id'] = element.id;
+    lista.add(data);
+  });
+  Future.delayed(const Duration(seconds: 5));
+  return lista;
+}
+
+//agregar un nuevo comentario a la pelicula con id de pelicula
+Future<void> addFavorito(newComentario) async {
+  await db.collection('favoritos').add(newComentario);
+}
+
+// Eliminar comentario
+Future<void> deleteFavorito(String id) async {
+  await db
+      .collection('favoritos')
+      .doc(id)
+      .delete()
+      .then((value) => print('Eliminado Correctamente'))
+      .catchError((err) => print('Error: $err'));
+}

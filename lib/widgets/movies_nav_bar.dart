@@ -33,7 +33,9 @@ class MoviesNavBar extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/favorites');
+            },
             child: const Icon(
               Icons.favorite_border,
               size: 35,

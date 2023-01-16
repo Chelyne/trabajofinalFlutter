@@ -20,9 +20,9 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
     final id = ModalRoute.of(context)!.settings.arguments as String;
+    String? email = UserPreferences.getEmail() ?? '';
 
     Future<dynamic> AlertShowComents(BuildContext context) {
-      String? email = UserPreferences.getEmail() ?? '';
       final TextEditingController comentario = TextEditingController();
       final formKeyNewComentario = GlobalKey<FormState>();
       return showDialog(
@@ -85,6 +85,38 @@ class _DetailsPageState extends State<DetailsPage> {
       );
     }
 
+    Future<dynamic> AlertAddFavoritos(BuildContext context, String title) {
+      return showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Agregar a Favorito"),
+              content: Text('Estas seguro de agregar a: ' +
+                  title.toUpperCase() +
+                  '  a favoritos?'),
+              actions: <Widget>[
+                ElevatedButton(
+                    child: Text("Cancelar"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    }),
+                ElevatedButton(
+                  child: Text("Aceptar"),
+                  onPressed: () {
+                    var fav = {
+                      'correo': email,
+                      'idPelicula': id,
+                    };
+                    addFavorito(fav);
+                    setState(() {});
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          });
+    }
+
     return BlocProvider(
       create: (context) => MovieIdCubit()..getTrendingMovies(id),
       child: BlocBuilder<MovieIdCubit, MovieIdState>(
@@ -124,7 +156,9 @@ class _DetailsPageState extends State<DetailsPage> {
                         ),
                         Buttons(
                           icon: Icons.favorite_border,
-                          onTap: () {},
+                          onTap: () {
+                            AlertAddFavoritos(context, '$title');
+                          },
                         ),
                         Buttons(
                           icon: Icons.download,
