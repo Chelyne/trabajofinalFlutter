@@ -96,33 +96,37 @@ class CardMovie extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Card(
-          elevation: 3,
-          margin: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              imagen != null
-                  ? FadeInImage.assetNetwork(
-                      placeholder: 'assets/logotipoplanet.png',
-                      image: 'https://image.tmdb.org/t/p/w500$imagen',
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height * 0.20,
-                      fit: BoxFit.fill,
-                    )
-                  : Image.asset(
-                      'assets/logotipoplanet.png',
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height * 0.20,
-                      fit: BoxFit.fill,
-                    ),
-              Text(
-                titulo,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 2, 2, 2),
+        Container(
+          height: 180,
+          child: Card(
+            elevation: 3,
+            margin: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                imagen != null
+                    ? FadeInImage.assetNetwork(
+                        placeholder: 'assets/logotipoplanet.png',
+                        image: 'https://image.tmdb.org/t/p/w500$imagen',
+                        width: double.infinity,
+                        height: 120,
+                        fit: BoxFit.fill,
+                      )
+                    : Image.asset(
+                        'assets/logotipoplanet.png',
+                        width: double.infinity,
+                        height: 120,
+                        fit: BoxFit.fill,
+                      ),
+                Text(
+                  titulo,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 2, 2, 2),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],

@@ -20,7 +20,8 @@ class UpcomingCard extends StatelessWidget {
         builder: (context, state) {
           return InkWell(
             onTap: () {
-              print('Movie 1');
+              Navigator.pushNamed(context, 'details',
+                  arguments: movie['id'].toString());
             },
             child: Container(
               width: 190,
