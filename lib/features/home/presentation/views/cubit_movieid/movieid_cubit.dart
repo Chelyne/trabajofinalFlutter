@@ -17,10 +17,15 @@ class MovieIdCubit extends Cubit<MovieIdState> {
       var dio = Dio();
       final response = await dio.get(
           'https://api.themoviedb.org/3/movie/$id?api_key=964085f4fd433d1a9da9fa8dea8e4e4c');
+      final videoResponse = await dio.get(
+          'https://api.themoviedb.org/3/movie/$id/videos?api_key=964085f4fd433d1a9da9fa8dea8e4e4c');
       final data = response.data;
-      // final decode = json.decode(response as String);
-      // print(decode);
-      emit(MovieIdState.sucessfull(data));
+      final videoData = videoResponse.data;
+      final videoResult = videoData['results'][0];
+
+      final url = 'https://www.youtube.com/watch?v=${videoResult['key']}';
+
+      emit(MovieIdState.sucessfull(data, url));
     } catch (e) {
       print('ERRORRR');
       // emit(MoviesState.error());

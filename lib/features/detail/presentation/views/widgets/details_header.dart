@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 
-import '../features/home/presentation/views/widgets/button_play.dart';
+import '../../../../home/presentation/views/widgets/button_play.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailsHeader extends StatelessWidget {
   const DetailsHeader({
     String? this.poster = '',
     String? this.backdrop = '',
+    required String this.url,
     Key? key,
   }) : super(key: key);
+
   final String? poster;
   final String? backdrop;
+  final String url;
+
   @override
   Widget build(BuildContext context) {
+    final Uri _url = Uri.parse(url);
     return Stack(
       children: [
         SizedBox(
@@ -60,7 +66,11 @@ class DetailsHeader extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.4,
               ),
               ButtonPlay(
-                onTap: () {},
+                onTap: () async {
+                  if (!await launchUrl(_url)) {
+                    throw 'Could not launch $_url';
+                  }
+                },
               )
             ],
           ),
